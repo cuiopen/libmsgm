@@ -1,0 +1,3 @@
+编译程序 - 在build下面运行
+cmake ..
+make

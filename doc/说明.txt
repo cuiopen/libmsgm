@@ -1,0 +1,39 @@
+1.用户看到的消息体如下，
+typedef struct _MSGM_CMD
+{
+    int cmd;  // 对应msgm_body中的cmd
+	int ret;  // 返回的结果值
+    int len;  // data的有效长度
+    char params[BYTE_1024];  // 对应msgm_body中的data
+}MSGM_CMD;
+其中，cmd目前支持三个固定的值
+#define MESSAGE_CMD_SETCONFIG 1  // setConfig
+#define MESSAGE_CMD_GETCONFIG 2  // getConfig
+#define MESSAGE_CMD_RPCCALL   3  // rpcCall
+
+2. cmd参数说明
+a. setConfig
+输入参数: command params
+输出参数：无
+b. getConfig
+输入参数：command
+输出参数：result
+c. rpcCall
+输入参数：command params
+输出参数：result
+注意，由于消息体里面只有一个params，遇到setConfig这种需要两个参数的方法，
+将两个参数用分隔符'='连接起来，然后赋值给消息体中的params。
+
+3. 返回值说明
+无特殊说明，返回0代表成功，返回-1代表失败
+
+4. create_open -> key
+所有模块的ID如下
+enum MSGM_MODULE_ID {
+	MSGM_SYS_MON_ID = 0x01,  // sys_mon
+	MSGM_HTTP_SVR_ID = 0x02,  // http_svr
+	MSGM_CFG_MAN_ID = 0x03,  // cfg_man
+	MSGM_CODEC_CORE_ID = 0x04,  // codec_core
+	MSGM_SYS_SVR_ID = 0x05,  // sys_svr
+	MSGM_CODEC_MAN_ID = 0x06  // codec_man
+};
